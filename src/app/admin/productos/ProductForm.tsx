@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { AdminCategory, AdminProduct } from "@/lib/admin-products";
@@ -40,9 +40,40 @@ export default function ProductForm({
   const [sizes, setSizes] = useState((product?.sizes ?? []).join("\n"));
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInput = useRef<HTMLInputElement>(null);
 
   const subCategories = categories.find((c) => c.id === categoryId)?.subCategories ?? [];
   const lines = (text: string) => text.split("\n").map((l) => l.trim()).filter(Boolean);
+
+  async function onFiles(e: ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = "";
+    if (!files.length) return;
+    setUploading(true);
+    setError(null);
+    const uploaded: string[] = [];
+    try {
+      for (const file of files) {
+        const data = new FormData();
+        data.append("file", file);
+        const res = await fetch("/api/admin/upload", { method: "POST", body: data });
+        const json = await res.json().catch(() => null);
+        if (!res.ok) {
+          setError(`${file.name}: ${json?.error ?? "no se pudo subir"}`);
+          break;
+        }
+        uploaded.push(json.url);
+      }
+    } finally {
+      if (uploaded.length) setImages((prev) => [...lines(prev), ...uploaded].join("\n"));
+      setUploading(false);
+    }
+  }
+
+  function removeImage(url: string) {
+    setImages(lines(images).filter((u) => u !== url).join("\n"));
+  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -144,9 +175,46 @@ export default function ProductForm({
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Imágenes" hint="Una URL por línea. La primera es la portada.">
-          <textarea className={`${input} font-mono text-xs`} rows={4} value={images} onChange={(e) => setImages(e.target.value)} placeholder="https://…" />
-        </Field>
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="images" className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+            Imágenes
+          </label>
+          <textarea id="images" className={`${input} font-mono text-xs`} rows={4} value={images} onChange={(e) => setImages(e.target.value)} placeholder="https://… o /uploads/…" />
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <input ref={fileInput} type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple onChange={onFiles} className="hidden" />
+            <button
+              type="button"
+              onClick={() => fileInput.current?.click()}
+              disabled={uploading}
+              className="shrink-0 whitespace-nowrap rounded-full border border-[#8B1A4A] text-[#8B1A4A] px-4 py-1.5 text-xs font-semibold hover:bg-rose-50 disabled:opacity-60"
+            >
+              {uploading ? "Subiendo…" : "📷 Subir archivo"}
+            </button>
+            <span className="text-xs text-gray-400">JPG, PNG, WEBP o GIF · máx. 5 MB</span>
+          </div>
+          <span className="text-xs text-gray-400">Pega una URL o sube un archivo, una por línea. La primera es la portada.</span>
+          {lines(images).length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-1">
+              {lines(images).map((url, i) => (
+                <div key={url} className="relative w-16 h-16 rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={url} alt="" className="w-full h-full object-cover" />
+                  {i === 0 && (
+                    <span className="absolute bottom-0 inset-x-0 bg-[#8B1A4A]/80 text-white text-[9px] text-center">Portada</span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => removeImage(url)}
+                    aria-label="Quitar imagen"
+                    className="absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-black/60 text-white text-[10px] leading-4 text-center"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
         <Field label="Tamaños / presentaciones" hint="Uno por línea (ej. Pequeña, Mediana).">
           <textarea className={input} rows={4} value={sizes} onChange={(e) => setSizes(e.target.value)} />
         </Field>
@@ -168,7 +236,7 @@ export default function ProductForm({
       <div className="flex gap-3">
         <button
           type="submit"
-          disabled={saving}
+          disabled={saving || uploading}
           className="rounded-full bg-[#8B1A4A] text-white px-6 py-2.5 text-sm font-semibold hover:bg-[#6B1235] transition-colors disabled:opacity-60"
         >
           {saving ? "Guardando…" : product ? "Guardar cambios" : "Crear producto"}
