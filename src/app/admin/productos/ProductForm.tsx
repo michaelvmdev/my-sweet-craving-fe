@@ -59,6 +59,10 @@ export default function ProductForm({
         data.append("file", file);
         const res = await fetch("/api/admin/upload", { method: "POST", body: data });
         const json = await res.json().catch(() => null);
+        if (res.status === 401) {
+          router.refresh(); // sesión vencida: vuelve al login
+          break;
+        }
         if (!res.ok) {
           setError(`${file.name}: ${json?.error ?? "no se pudo subir"}`);
           break;
@@ -98,6 +102,10 @@ export default function ProductForm({
           sizes: lines(sizes),
         }),
       });
+      if (res.status === 401) {
+        router.refresh(); // sesión vencida: vuelve al login
+        return;
+      }
       if (!res.ok) {
         setError((await res.json().catch(() => null))?.error ?? "No se pudo guardar");
         return;

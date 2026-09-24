@@ -5,7 +5,7 @@ import pool from "@/lib/db";
 import { UUID_RE } from "@/lib/admin-products";
 
 export const ADMIN_COOKIE = "admin_session";
-export const ADMIN_SESSION_SECONDS = 60 * 60 * 8;
+export const ADMIN_SESSION_SECONDS = 60 * 60 * 2;
 
 // Clave para firmar la cookie de sesión. Sin ninguna configurada el panel queda bloqueado.
 function secret(): string | null {

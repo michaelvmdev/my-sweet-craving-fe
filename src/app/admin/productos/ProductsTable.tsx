@@ -33,6 +33,10 @@ export default function ProductsTable({ products }: { products: AdminProductRow[
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ active: !p.active }),
       });
+      if (res.status === 401) {
+        router.refresh(); // sesión vencida: vuelve al login
+        return;
+      }
       if (!res.ok) {
         setError((await res.json().catch(() => null))?.error ?? "No se pudo actualizar");
         return;

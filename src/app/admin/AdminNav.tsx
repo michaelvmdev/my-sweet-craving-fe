@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -12,6 +13,7 @@ const items = [
 export default function AdminNav() {
   const pathname = usePathname();
   const router = useRouter();
+  const [loggingOut, setLoggingOut] = useState(false);
 
   function isActive(item: (typeof items)[number]) {
     if (item.exact) return pathname === item.href;
@@ -20,17 +22,35 @@ export default function AdminNav() {
   }
 
   async function logout() {
-    await fetch("/api/admin/login", { method: "DELETE" });
-    router.refresh();
+    setLoggingOut(true);
+    try {
+      await fetch("/api/admin/login", { method: "DELETE" });
+      router.replace("/admin");
+      router.refresh();
+    } finally {
+      setLoggingOut(false);
+    }
   }
 
+  const logoutButton = (
+    <button
+      onClick={logout}
+      disabled={loggingOut}
+      className="flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20 transition-colors disabled:opacity-60"
+    >
+      <span aria-hidden>⎋</span>
+      {loggingOut ? "Saliendo…" : "Cerrar sesión"}
+    </button>
+  );
+
   return (
-    <aside className="bg-[#6B1235] text-white md:w-60 md:min-h-screen md:sticky md:top-0 md:self-start shrink-0">
-      <div className="px-5 py-4 md:py-6 flex items-center justify-between md:block">
+    <aside className="bg-[#6B1235] text-white md:w-60 md:h-screen md:sticky md:top-0 md:self-start shrink-0 flex flex-col">
+      <div className="px-5 py-4 md:py-6 flex items-center justify-between gap-3">
         <div>
           <p className="font-serif text-lg font-bold leading-tight">Mi Dulce Antojo</p>
           <p className="text-[10px] tracking-[0.2em] uppercase text-white/60">Administración</p>
         </div>
+        <div className="md:hidden">{logoutButton}</div>
       </div>
 
       <nav className="flex md:flex-col gap-1 px-3 pb-3 md:pb-0 overflow-x-auto">
@@ -46,31 +66,17 @@ export default function AdminNav() {
             {item.label}
           </Link>
         ))}
-      </nav>
-
-      <div className="hidden md:flex flex-col gap-1 px-3 mt-6 border-t border-white/10 pt-4">
         <Link
           href="/"
           target="_blank"
-          className="rounded-xl px-3 py-2.5 text-sm text-white/75 hover:bg-white/10 hover:text-white"
+          className="flex items-center gap-2 whitespace-nowrap rounded-xl px-3 py-2.5 text-sm font-medium text-white/75 hover:bg-white/10 hover:text-white md:mt-4"
         >
-          ↗ Ver sitio
+          <span aria-hidden>↗</span>
+          Ver sitio
         </Link>
-        <button
-          onClick={logout}
-          className="text-left rounded-xl px-3 py-2.5 text-sm text-white/75 hover:bg-white/10 hover:text-white"
-        >
-          ⎋ Cerrar sesión
-        </button>
-      </div>
-      <div className="md:hidden flex gap-1 px-3 pb-3">
-        <Link href="/" target="_blank" className="rounded-xl px-3 py-2 text-xs text-white/75 hover:bg-white/10">
-          ↗ Ver sitio
-        </Link>
-        <button onClick={logout} className="rounded-xl px-3 py-2 text-xs text-white/75 hover:bg-white/10">
-          ⎋ Cerrar sesión
-        </button>
-      </div>
+      </nav>
+
+      <div className="hidden md:flex flex-col mt-auto p-4 border-t border-white/10">{logoutButton}</div>
     </aside>
   );
 }
