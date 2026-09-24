@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const router = useRouter();
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -17,7 +18,7 @@ export default function LoginForm() {
       const res = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ username, password }),
       });
       if (!res.ok) {
         setError((await res.json().catch(() => null))?.error ?? "No se pudo iniciar sesión");
@@ -37,14 +38,24 @@ export default function LoginForm() {
       >
         <div className="text-center">
           <h1 className="font-serif text-2xl font-bold text-[#8B1A4A]">Administración</h1>
-          <p className="text-sm text-gray-500 mt-1">Ingresa la contraseña para continuar</p>
+          <p className="text-sm text-gray-500 mt-1">Ingresa tus credenciales para continuar</p>
         </div>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Usuario"
+          autoComplete="username"
+          autoFocus
+          required
+          className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B1A4A]/30 focus:border-[#8B1A4A]"
+        />
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Contraseña"
-          autoFocus
+          autoComplete="current-password"
           required
           className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B1A4A]/30 focus:border-[#8B1A4A]"
         />
