@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand: #8B1A4A;
-  --color-brand-light: #f9d7e3;
-  --color-brand-dark: #6B1235;
-  --color-cream: #FDF6F0;
-  --color-gold: #c9a035;
-  --font-sans: var(--font-lato), Arial, sans-serif;
+  --color-brand: #B8914A;
+  --color-brand-light: #F4EEE6;
+  --color-brand-dark: #9A7840;
+  --color-cream: #FAFAFA;
+  --color-gold: #B8914A;
+  --font-sans: var(--font-inter), Arial, sans-serif;
   --font-serif: var(--font-playfair), Georgia, serif;
 }
 
@@ -19,8 +19,8 @@ html {
 }
 
 body {
-  background: #ffffff;
-  color: #2d1b1b;
+  background: #FAFAFA;
+  color: #1C0E08;
 }
 
 .line-clamp-2 {

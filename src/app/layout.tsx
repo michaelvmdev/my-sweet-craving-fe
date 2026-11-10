@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Playfair_Display, Lato } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -13,10 +13,10 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-const lato = Lato({
-  variable: "--font-lato",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["300", "400", "700", "900"],
+  weight: ["300", "400", "500", "600"],
   display: "swap",
 });
 
@@ -47,8 +47,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="es" className={`${playfair.variable} ${lato.variable}`}>
-      <body className="min-h-screen flex flex-col bg-white text-[#2d1b1b] font-sans antialiased">
+    <html lang="es" className={`${playfair.variable} ${inter.variable}`}>
+      <body className="min-h-screen flex flex-col bg-[#FAFAFA] text-[#1C0E08] font-sans antialiased">
         <HideOnAdmin>
           <Header />
         </HideOnAdmin>

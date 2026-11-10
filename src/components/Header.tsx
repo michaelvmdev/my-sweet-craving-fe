@@ -17,12 +17,12 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-rose-100">
+    <header className="sticky top-0 z-50 bg-[#FAFAFA]/95 backdrop-blur-md border-b border-[#B8914A]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 shrink-0">
-            <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-rose-100">
+            <div className="relative w-12 h-12 rounded-full overflow-hidden border border-[#B8914A]/40">
               <Image
                 src="/logo.png"
                 alt="Mi Dulce Antojo"
@@ -32,25 +32,25 @@ export default function Header() {
               />
             </div>
             <div className="hidden sm:block">
-              <p className="font-serif text-xl font-bold text-[#8B1A4A] leading-tight">
+              <p className="font-serif text-lg font-medium text-[#1C0E08] leading-tight">
                 Mi Dulce Antojo
               </p>
-              <p className="text-[10px] text-[#8B1A4A]/60 tracking-[0.2em] uppercase">
+              <p className="text-[9px] text-[#B8914A]/70 tracking-[0.28em] uppercase mt-0.5">
                 Postres Artesanales
               </p>
             </div>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-7">
+          <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={`text-sm font-medium transition-colors pb-0.5 ${
                   pathname === link.href
-                    ? "text-[#8B1A4A] border-b-2 border-[#8B1A4A]"
-                    : "text-gray-600 hover:text-[#8B1A4A] border-b-2 border-transparent"
+                    ? "text-[#B8914A] border-b border-[#B8914A]"
+                    : "text-[#1C0E08]/60 hover:text-[#1C0E08] border-b border-transparent"
                 }`}
               >
                 {link.label}
@@ -63,7 +63,7 @@ export default function Header() {
             href="https://wa.me/51967636632"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:flex items-center gap-2 bg-[#25D366] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#1da851] transition-colors shadow-sm"
+            className="hidden md:flex items-center gap-2 bg-[#25D366] text-white px-5 py-2.5 rounded text-sm font-semibold hover:bg-[#1da851] transition-colors"
           >
             <WhatsAppIcon className="w-4 h-4" />
             Pedir ahora
@@ -71,7 +71,7 @@ export default function Header() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden p-2 rounded-lg text-gray-600 hover:text-[#8B1A4A] hover:bg-rose-50 transition-colors"
+            className="md:hidden p-2 text-[#1C0E08]/60 hover:text-[#1C0E08] transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
           >
@@ -82,16 +82,16 @@ export default function Header() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-t border-rose-100 px-4 py-4 flex flex-col gap-1 shadow-lg">
+        <div className="md:hidden bg-[#FAFAFA] border-t border-[#B8914A]/15 px-4 py-4 flex flex-col gap-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className={`text-base font-medium py-2.5 px-4 rounded-xl transition-colors ${
+              className={`text-sm font-medium py-3 px-4 transition-colors border-b border-[#1C0E08]/05 ${
                 pathname === link.href
-                  ? "text-[#8B1A4A] bg-rose-50"
-                  : "text-gray-700 hover:text-[#8B1A4A] hover:bg-rose-50"
+                  ? "text-[#B8914A]"
+                  : "text-[#1C0E08]/70 hover:text-[#1C0E08]"
               }`}
             >
               {link.label}
@@ -102,9 +102,9 @@ export default function Header() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setMenuOpen(false)}
-            className="flex items-center justify-center gap-2 bg-[#25D366] text-white px-4 py-3 rounded-full text-sm font-semibold hover:bg-[#1da851] transition-colors mt-3"
+            className="flex items-center justify-center gap-2 bg-[#25D366] text-white px-4 py-3 rounded text-sm font-semibold hover:bg-[#1da851] transition-colors mt-3"
           >
-            <WhatsAppIcon className="w-5 h-5" />
+            <WhatsAppIcon className="w-4 h-4" />
             Hacer un pedido
           </a>
         </div>
@@ -123,7 +123,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
 
 function MenuIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
     </svg>
   );
@@ -131,7 +131,7 @@ function MenuIcon({ className }: { className?: string }) {
 
 function XIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
     </svg>
   );

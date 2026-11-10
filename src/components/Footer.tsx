@@ -5,13 +5,13 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#6B1235] text-white">
+    <footer className="bg-[#1C0E08] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
           <div className="flex flex-col items-center md:items-start gap-5">
             <div className="flex items-center gap-3">
-              <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-white/30">
+              <div className="relative w-12 h-12 rounded-full overflow-hidden border border-[#B8914A]/40">
                 <Image
                   src="/logo.png"
                   alt="Mi Dulce Antojo"
@@ -20,13 +20,13 @@ export default function Footer() {
                 />
               </div>
               <div>
-                <p className="font-serif text-xl font-bold">Mi Dulce Antojo</p>
-                <p className="text-[10px] text-white/60 tracking-[0.2em] uppercase">
+                <p className="font-serif text-lg font-medium">Mi Dulce Antojo</p>
+                <p className="text-[9px] text-[#B8914A]/60 tracking-[0.28em] uppercase mt-0.5">
                   Postres Artesanales
                 </p>
               </div>
             </div>
-            <p className="text-white/70 text-sm text-center md:text-left leading-relaxed max-w-xs">
+            <p className="text-white/50 text-sm text-center md:text-left leading-relaxed max-w-xs">
               Endulzando tus momentos especiales con postres artesanales hechos
               con ingredientes frescos y mucho amor.
             </p>
@@ -34,7 +34,9 @@ export default function Footer() {
 
           {/* Links */}
           <div className="text-center md:text-left">
-            <h3 className="font-serif text-lg font-semibold mb-5">Navegación</h3>
+            <h3 className="font-serif text-sm font-medium mb-5 text-[#B8914A]/80 tracking-widest uppercase text-xs">
+              Navegación
+            </h3>
             <ul className="flex flex-col gap-3">
               {[
                 { href: "/", label: "Inicio" },
@@ -45,7 +47,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-white/70 hover:text-white transition-colors text-sm"
+                    className="text-white/50 hover:text-white transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -56,28 +58,30 @@ export default function Footer() {
 
           {/* Contact & Social */}
           <div className="text-center md:text-left">
-            <h3 className="font-serif text-lg font-semibold mb-5">Contáctanos</h3>
+            <h3 className="font-serif text-sm font-medium mb-5 text-[#B8914A]/80 tracking-widest uppercase text-xs">
+              Contáctanos
+            </h3>
             <div className="flex flex-col gap-4">
               <a
                 href="https://wa.me/51967636632"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center md:justify-start gap-2 text-white/80 hover:text-white transition-colors text-sm"
+                className="inline-flex items-center justify-center md:justify-start gap-2 text-white/60 hover:text-white transition-colors text-sm"
               >
-                <WhatsAppIcon className="w-5 h-5 shrink-0 text-[#25D366]" />
+                <WhatsAppIcon className="w-4 h-4 shrink-0 text-[#25D366]" />
                 967 636 632
               </a>
 
               <div>
-                <p className="text-white/50 text-xs mb-3 uppercase tracking-wider">
-                  Síguenos en redes
+                <p className="text-white/30 text-xs mb-3 uppercase tracking-wider">
+                  Redes sociales
                 </p>
                 <div className="flex items-center justify-center md:justify-start gap-3">
                   <a
                     href="https://facebook.com/midulceantojo"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition-colors"
+                    className="w-9 h-9 border border-[#B8914A]/30 hover:border-[#B8914A] flex items-center justify-center transition-colors"
                     aria-label="Facebook de Mi Dulce Antojo"
                   >
                     <FacebookIcon className="w-4 h-4" />
@@ -86,7 +90,7 @@ export default function Footer() {
                     href="https://instagram.com/midulceantojo"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition-colors"
+                    className="w-9 h-9 border border-[#B8914A]/30 hover:border-[#B8914A] flex items-center justify-center transition-colors"
                     aria-label="Instagram de Mi Dulce Antojo"
                   >
                     <InstagramIcon className="w-4 h-4" />
@@ -95,7 +99,7 @@ export default function Footer() {
                     href="https://tiktok.com/@midulceantojo"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition-colors"
+                    className="w-9 h-9 border border-[#B8914A]/30 hover:border-[#B8914A] flex items-center justify-center transition-colors"
                     aria-label="TikTok de Mi Dulce Antojo"
                   >
                     <TikTokIcon className="w-4 h-4" />
@@ -106,11 +110,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-white/20 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-white/50 text-xs">
+        <div className="mt-12 pt-6 border-t border-[#B8914A]/15 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-white/30 text-xs">
             © {year} Mi Dulce Antojo. Todos los derechos reservados.
           </p>
-          <p className="text-white/40 text-xs">Postres Artesanales con ♥ Amor</p>
+          <p className="text-[#B8914A]/40 text-xs">Postres Artesanales · Lima, Perú</p>
         </div>
       </div>
     </footer>
